@@ -1,0 +1,105 @@
+body {
+    background: #DDDDDD;
+}
+
+.navbar {
+    background-color: #349daf;
+    color: white;
+}
+
+.page-container {
+    margin-top: 75px;
+}
+
+
+
+#setting{
+    position: absolute;
+    right: 70px;
+    size: 200%;
+    text-align: center;
+
+}
+
+#discovery{
+    color: #FF5722;
+    
+}
+
+#buttom{
+
+    background: #FAFAFA;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.12), 0px 8px 8px rgba(0, 0, 0, 0.24);
+    color: grey;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+
+
+input[type=text] {
+    padding-top: 8px;
+    padding-bottom:12px;
+    width:100%;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#buttomContainer{
+    position: fixed; 
+    bottom: 0px; 
+    width: 100%;
+}
+
+@media (min-width: 0px) { 
+    #buttomContainer{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (min-width: 768px) { 
+    #buttomContainer{
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+
+    #setting{
+        position: absolute;
+        right: 85px;    
+    }
+
+    img{
+        width: 90%;
+    }
+}
+
+
+@media (min-width: 992px) { 
+    img{
+        width: 65%;
+    }
+
+    #setting{
+        position: absolute;
+        right: 100px;    
+    }
+}
+
+
+@media (min-width: 1200px) { 
+    img{
+        width: 65%;
+    }
+
+    #setting{
+        position: absolute;
+        right: 120px;    
+    }
+
+    #buttonContainer{
+        padding-left: 30%;
+        padding-right: 30%;
+    }
+ }
