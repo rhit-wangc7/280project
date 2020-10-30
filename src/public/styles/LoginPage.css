@@ -41,7 +41,7 @@ body {
 #logText{
     font-style: normal;
     color: rgb(55, 58, 59);
-    margin-bottom: 10px;
+    margin: 10px;
 }
 
 .form_input {
@@ -59,10 +59,34 @@ body {
     padding: 15px 0 0;
 }
 
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 80%;
+    text-align: center;
+    text-decoration: none;
+    margin:  20px;
+    border-radius: 5em;
+  }
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.fa-google {
+    background: white;
+    color:orange;
+  }
 .button{
-   
     margin-top: 30px;
 }
+
+
 @media (min-width: 0px) { 
     #buttomContainer{
         padding-left: 10px;
@@ -76,9 +100,10 @@ body {
     }
     .form_input {
         width: 70%;
-       
     }
-    
+    .fa {
+        width:70%;
+    }
 }
 
 
@@ -90,6 +115,9 @@ body {
         width: 62%;
        
     }
+    .fa {
+        width: 62%;
+    }
     
 }
 
@@ -99,8 +127,12 @@ body {
         width: 55%;
     }
     .form_input {
-        width: 55%;
-       
+        width: 55%;  
+    }
+    .fa {
+        width: 55%;  
     }
     
  }
+ 
+ 
