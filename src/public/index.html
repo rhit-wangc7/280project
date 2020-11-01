@@ -6,64 +6,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-  <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.0/firebase-ui-auth.css" />
-  <link rel="stylesheet" href="styles/LoginPage.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/main.css">
   <title>Bartering</title>
 </head>
 
 <body>
   <nav class="navbar navbar-dark fixed-top">
-    <button class="btn bmd-btn-icon dropdown-toggle mx-1" id = "back" type="button">
-        <i class="material-icons">
-          keyboard_backspace
-        </i>
+    <a class="navbar-brand" href="#">Bartering</a>
+    <button class="btn bmd-btn-icon dropdown-toggle mx-1" id = "setting" type="button">
+      <i class="material-icons">settings</i>
     </button>
-    <a class="navbar-brand" href="#" style="position: fixed; left: 17%;">Log in</a>
-  
+
+    <button class="btn bmd-btn-icon dropdown-toggle" type="button">
+      <i class="material-icons">account_circle</i>
+    </button>
   </nav>
 
-  
 
-  <div id="loginPage" class="container page-container text-center">
-    <div id="firebaseui-auth-container"></div>
+  <div id="mainPage" class="container page-container text-center">
 
-    <a href="#" class="fa fa-facebook">&nbsp;&nbsp;Continue with Facebook</a>
-    <a href="#" class="fa fa-google">&nbsp;&nbsp;Continue with Google</a>
-    <div id = "logText">OR LOGIN WITH EMAIL</div>
+    <div id = "searchBox" class="my-3 py-3">
+      <input type="text" name="search" placeholder=" Search..">
+    </div>
+    
+    <div class="pin"  id="7FjmtcF1qX4xRMWD2um3">
+      <img class="img-fluid"
+      src="https://i.pinimg.com/originals/90/a5/f4/90a5f4f961bd904027b78c7dfeba487f.jpg"
+      alt="Batering Image">
+    </div>
+  </div>
 
-    <div class="form-group my-0" >
-        <input type="email" class="form_input  " placeholder="Enter your email address" aria-label="Email address" required="required" name="email" value="">
-    </div>  
 
-    <div class="form-group my-0">
-        <input type="password" class="form_input " id="password_field" autocomplete="off" placeholder="Enter your password" aria-label="Password" required="required" name="password">
-    </div>  
+  <div class="py-0 text-center" id="buttomContainer">
+    
+    <div id = "buttom" class="row my-2 mx-auto py-2 " >
+      <div id = "discovery" class="col text-center">
+        
+        <button class="btn bmd-btn-icon dropdown-toggle mx-1" type="button">
+          <span id = "discoveryIcon" class="material-icons" style="font-size:xx-large">
+            lens
+          </span>
+        </button>
+        <div style="font-size:80%">Discovery</div>
+      </div>
+      
+      <div id = "category" class="col text-center">
+        
+        <button  class="btn bmd-btn-icon dropdown-toggle mx-1" type="button">
+          <span id = "categoryIcon" class="material-icons" style="font-size:xx-large">
+            lens
+          </span>
+        </button>
+        <div style="font-size:80%">Category</div>
+      </div>
+      
+      <div id = "myList" class="col text-center">
+        
+        <button class="btn bmd-btn-icon dropdown-toggle mx-1" type="button">
+          <span id = "myListIcon" class="material-icons" style="font-size:xx-large">
+            lens
+          </span>
+        </button>
+        <div style="font-size:80%">MyList</div>
+      </div>
+    </div>
 
-    <div class="button" >
-        <button id = "login" type="button" class="btn btn-raised btn-lg">Login</button>
-    </div>  
-
-    <a id="forgetPassword" href="#">Forget Password ?</a>
-   
-   
-
- </div>
+  </div>
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
   <script src="scripts/bootstrap-material-design.js"></script>
-  <script>
-    $("body").bootstrapMaterialDesign();
-  </script>
+  <script>$("body").bootstrapMaterialDesign();</script>
   <script src="/__/firebase/7.18.0/firebase-app.js"></script>
   <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
   <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
   <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
-  <!-- Firebase Auth! -->
-  <script src="https://www.gstatic.com/firebasejs/ui/4.7.0/firebase-ui-auth.js"></script>
   <script src="/__/firebase/init.js"></script>
-  <!-- Rosefire -->
-  <script src="scripts/rosefire.min.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 
