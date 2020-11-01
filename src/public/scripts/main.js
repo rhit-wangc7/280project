@@ -31,6 +31,24 @@ rhit.startFirebaseUI = () =>{
       ui.start('#firebaseui-auth-container', uiConfig);
 }
 
+rhit.homePageController = class{
+	constructor(){
+		$("#account").click(()=>{
+			window.location.href = `loginPage.html`
+		})
+	}
+
+
+}
+
+rhit.listPageController = class{
+	constructor(){
+		$("#account").click(()=>{
+			window.location.href = `loginPage.html`
+		})
+	}
+}
+
 rhit.initializePage = ()=>{
 	// const urlParams = new URLSearchParams(window.location.search);
 	// const photoId = urlParams.get("id");
@@ -40,11 +58,13 @@ rhit.initializePage = ()=>{
 			// new rhit.LoginPageController();
 		}
 
-		// if(document.querySelector("#PhotoPage")){
-		// 	const uid = urlParams.get('uid');
-		// 	rhit.photoManager = new rhit.PhotoManager(uid);
-		// 	new rhit.PhotoPageController();
-		// }
+		if(document.querySelector("#mainPage")){
+			new rhit.homePageController();
+		}
+
+		if(document.querySelector("#ListPage")){
+			new rhit.homePageController();
+		}
 
 		// if(document.querySelector("#detailPage")){
 
