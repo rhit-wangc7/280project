@@ -69,8 +69,8 @@ rhit.ListPageController = class {
 		$("#account").click(() => {
 			if (!rhit.authManager.isSignedIn) {
 				window.location.href = `loginPage.html`
-			} else {
-				rhit.authManager.signOut();
+			} else{
+				window.location.href = `accountPage.html`
 			}
 		})
 
@@ -117,7 +117,9 @@ rhit.DetailPageController = class {
 		$("#account").click(()=>
 		{if (!rhit.authManager.isSignedIn) {
 			window.location.href = `loginPage.html`
-		} 
+		} else{
+			window.location.href = `accountPage.html`
+		}
 		})
 
 		$("#favoriteBut").click(()=>{
