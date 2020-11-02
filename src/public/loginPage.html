@@ -15,7 +15,7 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
     <button class="btn bmd-btn-icon dropdown-toggle mx-1" id = "back" type="button">
-        <a style="color: white;" href="/" >
+        <a style="color: white;" href="javascript:history.back(-1)" >
           <i class="material-icons"> keyboard_backspace </i>
         </a>
     </button>
@@ -26,24 +26,13 @@
   
 
   <div id="loginPage" class="container page-container text-center">
+    <br>
     <div id="firebaseui-auth-container"></div>
+    <br>
+    <br>
+    <div id = "logText">Or Login with Rose Account</div>
 
-    <a href="#" class="fa fa-facebook">&nbsp;&nbsp;Continue with Facebook</a>
-    <a href="#" class="fa fa-google">&nbsp;&nbsp;Continue with Google</a>
-    <div id = "logText">OR LOGIN WITH EMAIL</div>
-
-    <div class="form-group my-0" >
-        <input type="email" class="form_input  " placeholder="Enter your email address" aria-label="Email address" required="required" name="email" value="">
-    </div>  
-
-    <div class="form-group my-0">
-        <input type="password" class="form_input " id="password_field" autocomplete="off" placeholder="Enter your password" aria-label="Password" required="required" name="password">
-    </div>  
-
-    <div class="button" >
-        <button id = "login" type="button" class="btn btn-raised btn-lg">Login</button>
-    </div>  
-
+    <button type="button" class="btn" id="loginButton">Sign in with Rosefire</button>
     <a id="forgetPassword" href="#">Forget Password ?</a>
    
    
