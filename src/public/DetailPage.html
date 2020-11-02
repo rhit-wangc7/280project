@@ -13,7 +13,7 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
 
-    <button class="btn bmd-btn-icon dropdown-toggle mx-1" id = "back" type="button">
+    <button class="btn bmd-btn-icon dropdown-toggle mx-1" onclick="javascript:window.history.back(-1);" id = "back" type="button">
       <span class="material-icons">
         keyboard_backspace
       </span>
@@ -30,28 +30,29 @@
     </button>
   </nav>
 
-
-  <div id="mainPage" class="container page-container text-center">
-    <div class = "detail px-0 my-4">
-      <img style = "border-radius: 5px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQeOsPJFvyMnu7OpgcuMRY_2smSzr9vsCXSXw&usqp=CAU" alt="Harry Potter">
+  <div id="detailPage" class="container page-container text-center">
+    <div id ="detailItem">
+      <div class = "detail px-0 my-4">
+        <img id ="myImg" style = "border-radius: 5px;" src=" " alt="Photo Goes Here">
+        </div>
+        <div class = "information px-0 my-4" >
+          <p id ="Owner">Owner: </p>
+          <p id = "itemId" >Item ID </p>
+          <p id = "Name">Name: </p>
+          <p id ="Condition" >Condition: Like new</p>
+          <p id ="Email">Email: </p>
+          <p id ="Description">Description: This is my favorite book!</p>
+        </div>
     </div>
-    <div class = "information px-0 my-4" >
-        <p>Owner: Tony Chen</p>
-        <p>Item ID #88888</p>
-        <p>Condition: Like new</p>
-        <p>Email: cheny33@rose-hulman.edu</p>
-        <p>Description: This is my favorite book!</p>
+  
+      <div>
+          <button id="contactBut"class="btn mx-3" type="button" style="background-color:#349DAF; color: white;">Contact Owner Now ! </button>
+  
+           <button id ="favoriteBut"class="btn bmd-btndropdown-toggle mx-2 px-2 py-1" style="background-color:white; color: red;"  type="button">
+              <i class="material-icons">favorite</i>
+          </button>
+      </div>                         
     </div>
-
-    <div>
-        <button class="btn mx-3" type="button" style="background-color:#349DAF; color: white;">Contact Owner Now ! </button>
-
-         <button class="btn bmd-btndropdown-toggle mx-2 px-2 py-1" style="background-color:white; color: red;"  type="button">
-            <i class="material-icons">favorite</i>
-        </button>
-    </div>                         
-  </div>
-
 
   
   <script src="scripts/jquery.min.js"></script>
