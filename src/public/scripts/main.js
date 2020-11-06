@@ -19,17 +19,12 @@ rhit.FB_KEY_LAST_TOUCHED = "lastTouched";
 rhit.FB_KEY_OWNER = "Owner";
 rhit.fbItemsManager = null;
 rhit.fbDetailItemManager = null;
+rhit.fbSavedListManager = null;
+rhit.fbMyPostManager = null;
+rhit.inListingPage = false;
 /** globals */
 rhit.variableName = "";
 
-
-// From https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
-function htmlToElement(html) {
-	var template = document.createElement('template');
-	html = html.trim();
-	template.innerHTML = html;
-	return template.content.firstChild;
-}
 
 rhit.startFirebaseUI = () => {
 	// FirebaseUI config.
@@ -53,13 +48,29 @@ rhit.startFirebaseUI = () => {
 //Page Controller Begins
 rhit.HomePageController = class {
 	constructor() {
+		
+
 		$("#account").click(() => {
+			if (!rhit.authManager.isSignedIn) {
+				window.location.href = `loginPage.html`;
+			} else {
+				window.location.href = `accountPage.html`;
+			}
+		})
+
+		
+		$("#myListButton").click(() => {
 			if (!rhit.authManager.isSignedIn) {
 				window.location.href = `loginPage.html`
 			} else {
-				rhit.authManager.signOut();
+				// console.log("clicked");
+				// $("#myList").css("color", "#FF5722");
+				// $("#discovery").css("color", "grey");
+
+				window.location.href= "/savedList.html";
 			}
-		})
+		});
+
 	}
 
 }
@@ -69,10 +80,18 @@ rhit.ListPageController = class {
 		$("#account").click(() => {
 			if (!rhit.authManager.isSignedIn) {
 				window.location.href = `loginPage.html`
-			} else{
+			} else {
 				window.location.href = `accountPage.html`
 			}
 		})
+
+		document.querySelector("#fab").addEventListener("click", (event) => {
+			if (!rhit.authManager.isSignedIn) {
+				window.location.href = `loginPage.html`
+			} else{
+				window.location.href = `addItem.html`
+			}
+		});
 
 		rhit.fbItemsManager.beginListening(this.updateList.bind(this));
 	}
@@ -102,10 +121,11 @@ rhit.ListPageController = class {
 		oldList.removeAttribute("id");
 		oldList.hidden = true;
 		oldList.parentElement.appendChild(newList);
-		
+
 	}
-	_createItem(Post){
-		return htmlToElement(` <div class = "post px-0 my-4"><img style = "border-radius: 5px;" src="${Post.url}"alt="${Post.name}">
+	_createItem(Post) {
+		return htmlToElement(` <div class = "post px-0 my-4">
+		<img style = "border-radius: 2em;" src="${Post.url}"alt="${Post.name}">
 		<div class="text-center h2 col-7" style="padding-right: 10%;">${Post.name}</div></div>`);
 	};
 
@@ -113,33 +133,41 @@ rhit.ListPageController = class {
 }
 
 rhit.DetailPageController = class {
-	constructor(){
-		$("#account").click(()=>
-		{if (!rhit.authManager.isSignedIn) {
-			window.location.href = `loginPage.html`
-		} else{
-			window.location.href = `accountPage.html`
-		}
+	constructor() {
+		$("#account").click(() => {
+			if (!rhit.authManager.isSignedIn) {
+				window.location.href = `loginPage.html`
+			} else {
+				window.location.href = `accountPage.html`
+			}
 		})
 
 		$("#favoriteBut").click(()=>{
 			if (!rhit.authManager.isSignedIn) {
 				window.location.href = `loginPage.html`
-			} 
+			}
+			else{
+				if(rhit.inListingPage){
+					window.location.href = `ListPage.html`
+				}else{
+					window.location.href = `savedList.html`
+				}
+				
+			}
 		})
 
-		$("#contactBut").click(()=>{
+		$("#contactBut").click(() => {
 			if (!rhit.authManager.isSignedIn) {
 				window.location.href = `loginPage.html`
-			} 
+			}
 		})
 
-		
+
 
 		rhit.fbDetailItemManager.beginListening(this.updateView.bind(this));
 	}
-	
-	updateView(){
+
+	updateView() {
 		console.log(rhit.fbDetailItemManager.Description);
 		document.getElementById("Name").innerText = `Name:${rhit.fbDetailItemManager.Name}`;
 		document.getElementById("Owner").innerText = `Owner:${rhit.fbDetailItemManager.Owner}`;
@@ -148,7 +176,7 @@ rhit.DetailPageController = class {
 		document.getElementById("Description").innerText = `Description: ${rhit.fbDetailItemManager.Description}`;
 		document.getElementById("myImg").src = rhit.fbDetailItemManager.url;
 
-		
+
 	}
 
 }
@@ -162,8 +190,129 @@ rhit.LoginPageController = class {
 		$("#loginButton").click(() => {
 			rhit.authManager.signIn();
 		})
+
+		$("#loginback").click(() => {
+			if (rhit.authManager.isSignedIn){
+				window.history.back(-1);
+				// console.log("Oh!");
+			} else{
+				window.location.href="/";
+			}
+		})
 	}
 }
+
+
+rhit.accountPageController = class {
+	constructor() {
+		const name = rhit.authManager.name;
+		const email = rhit.authManager.email;
+		const URL = rhit.authManager.photoURL;
+	
+
+		$("#nameInput").val(name);
+		$("#emailInput").val(email);
+		$("#urlInput").val(URL);
+		$(".userImage").attr('src',URL); 
+		
+		
+		$("#submitInfoChange").click(() => {
+			const newName = $("#nameInput").val();
+			const newEmail = $("#emailInput").val();
+			const newURL = $("#urlInput").val();
+			
+			
+			
+			if (newEmail  && email != newEmail){
+				console.log("Email");
+				rhit.authManager.setEmail(newEmail,() => {
+					$("#emailInput").val(email);
+				});
+			}
+			console.log( (name || URL));
+			if ( (newName  && name != newName)  || (newURL && URL != newURL)){
+				console.log("Name");
+				rhit.authManager.setProfile(newName, newURL,() => {
+					$(".userImage").attr('src',newURL); 
+				},() => {
+					$("#nameInput").val(name);
+					$("#urlInput").val(URL);
+				});
+			}
+			
+			// window.history.back(-1);
+			
+			
+			
+		})
+
+
+		// Button Listener
+		$("#saveListButton").click(() => {
+			window.location.href="/savedList.html";
+		});
+
+		$("#myPostButton").click(() => {
+			window.location.href=`listPage?uid=${rhit.authManager.uid}.html`;
+		});
+
+		$("#signOutButton").click(() => {
+			rhit.authManager.signOut();
+			window.location.href="/loginPage.html";
+		});
+
+
+	}
+
+}
+
+
+rhit.SavedListController = class {
+	constructor() {
+		$("#account").click(() => {
+			if (!rhit.authManager.isSignedIn) {
+				window.location.href = `loginPage.html`
+			} else{
+				window.location.href = `accountPage.html`
+			}
+		})
+		rhit.fbSavedListManager.beginListening(this.updateList.bind(this));
+	}
+
+	updateList(){
+		console.log("need to update list.");
+		console.log(`Num of items = ${rhit.fbSavedListManager.length}`);
+		rhit.inListingPage=true;
+		// console.log("Example quote = ", rhit.fbItemsManager.getMovieQuoteAtIndex(0) );
+
+		// new List 
+		const newList = htmlToElement(' <div id="Container"></div>');
+		for (let i =0; i<rhit.fbSavedListManager.length;i++){
+			const item = rhit.fbSavedListManager.getItemAtIndex(i);
+			console.log(item.name);
+			const newItem = this._createItem(item);
+			
+			newItem.onclick = (event) => {
+				console.log(`you clicked on ${item.id}`);
+				window.location.href = `/DetailPage.html?id=${item.id}`;
+				console.log("you are in the detail page");				
+			}
+			newList.appendChild(newItem);
+		}
+		const oldList = document.querySelector("#Container");
+		// Put in the new quoteListContainer
+		oldList.removeAttribute("id");
+		oldList.hidden = true;
+		oldList.parentElement.appendChild(newList);
+		
+	}
+	_createItem(Post){
+		return htmlToElement(` <div class = "post px-0 my-4"><img style = "border-radius: 2em;" src="${Post.url}"alt="${Post.name}">
+		<div class="text-center h2 col-7" style="padding-right: 10%;">${Post.name}</div></div>`);
+	};
+}
+
+
 //Page Controller Ends
 
 
@@ -172,6 +321,63 @@ rhit.LoginPageController = class {
 //Managers Begin
 
 rhit.FbItemsManager = class {
+	constructor(uid){
+		this._uid =uid;
+		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_POSTS);
+		console.log(this._ref);
+		this._documentSnapshots = [];
+		this._unsubscribe = null;
+	}
+
+	add(name,url){
+		this._ref.add({
+			[rhit.FB_KEY_IMAGE_URL]: url,
+			[rhit.FB_KEY_NAME]: name,
+			[rhit.FB_KEY_OWNER]:rhit.fbAuthManager.uid,
+			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+		})
+		.then(function() {
+			console.log("Document successfully written!");
+		})
+		.catch(function(error) {
+			console.error("Error writing document: ", error);
+		});
+	}
+
+	beginListening(changeListener) {
+		let query = this._ref.limit(100);
+		if(this._uid){
+			query =query.where(rhit.FB_KEY_OWNER, "==", this._uid );
+		}
+
+		this._unsubscribe = query
+		.onSnapshot((querySnapshot)=> {
+			console.log("Movie Quote update");
+			this._documentSnapshots = querySnapshot.docs;
+			changeListener();    
+   		 });
+	}
+
+	stopListening() {
+		this._unsubscribe();
+	}
+
+	getItemAtIndex(index){
+		const docSnapchot = this._documentSnapshots[index];
+		const oneitem = new rhit.Post(
+			docSnapchot.id,
+			docSnapchot.get(rhit.FB_KEY_NAME),
+			docSnapchot.get(rhit.FB_KEY_IMAGE_URL),
+		);
+		return oneitem;
+	}
+
+	get length() {
+		return this._documentSnapshots.length;
+	}
+}
+
+rhit.FbSavedListManager = class {
 	constructor(){
 		this.users = null;
 		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_POSTS);
@@ -186,12 +392,6 @@ rhit.FbItemsManager = class {
 			[rhit.FB_KEY_NAME]: name,
 			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
 		})
-		// .then(function() {
-		// 	console.log("Document successfully written!");
-		// })
-		// .catch(function(error) {
-		// 	console.error("Error writing document: ", error);
-		// });
 	}
 
 	beginListening(changeListener) {  
@@ -223,71 +423,71 @@ rhit.FbItemsManager = class {
 }
 
 rhit.FbDetailItemManager = class {
-	constructor(id){
-	   this._documentSnapshot = {};
-	   this._unsubscribe = null;
-	   this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_POSTS).doc(id);
+	constructor(id) {
+		this._documentSnapshot = {};
+		this._unsubscribe = null;
+		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_POSTS).doc(id);
 		console.log(`Listening to ${this._ref.path}`);
 	}
 
 	beginListening(changeListener) {
-	   this._unsubscribe = this._ref.onSnapshot((doc) =>{
-		   if(doc.exists){
-			   console.log("Document data:", doc.data());
-			   this._documentSnapshot=doc;
-			   changeListener();
-		   }else{
-			   console.log("No such document");
-		   }
-	   });
-   }
+		this._unsubscribe = this._ref.onSnapshot((doc) => {
+			if (doc.exists) {
+				console.log("Document data:", doc.data());
+				this._documentSnapshot = doc;
+				changeListener();
+			} else {
+				console.log("No such document");
+			}
+		});
+	}
 
-   stopListening() {
-	   this._unsubscribe();
-   }
+	stopListening() {
+		this._unsubscribe();
+	}
 
-   update(Owner, Condition, Name, Description,url ,Type ){
-	   this._ref.update({
-		   [rhit.FB_KEY_TYPE]: Type,
-		   [rhit.FB_KEY_OWNER]: Owner,
-		   [rhit.FB_KEY_NAME]: Name,
-		   [rhit.FB_KEY_CONDITION]:Condition,
-		   [rhit.FB_KEY_DESCRIPTION]: Description,
-		   [rhit.FB_KEY_IMAGE_URL]: url,
-		   [rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
-	   })
-	   .then(() => {
-		   console.log("Document successfully updated!");
-	   })
-	   .catch(function(error) {
-		   console.error("Error writing document: ", error);
-	   });
-   
-   }
+	update(Owner, Condition, Name, Description, url, Type) {
+		this._ref.update({
+			[rhit.FB_KEY_TYPE]: Type,
+			[rhit.FB_KEY_OWNER]: Owner,
+			[rhit.FB_KEY_NAME]: Name,
+			[rhit.FB_KEY_CONDITION]: Condition,
+			[rhit.FB_KEY_DESCRIPTION]: Description,
+			[rhit.FB_KEY_IMAGE_URL]: url,
+			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+		})
+			.then(() => {
+				console.log("Document successfully updated!");
+			})
+			.catch(function (error) {
+				console.error("Error writing document: ", error);
+			});
 
-//    delete(){
-// 	   return this._ref.delete();
-//    }
+	}
 
-   get url(){
-	   return this._documentSnapshot.get(rhit.FB_KEY_IMAGE_URL);
-   }
+	//    delete(){
+	// 	   return this._ref.delete();
+	//    }
 
-   get Owner(){
+	get url() {
+		return this._documentSnapshot.get(rhit.FB_KEY_IMAGE_URL);
+	}
+
+	get Owner() {
 		return this._documentSnapshot.get(rhit.FB_KEY_OWNER);
-   }
+	}
 
-   get Name(){
+	get Name() {
 		return this._documentSnapshot.get(rhit.FB_KEY_NAME);
-   }
+	}
 
-   get Condition(){
+	get Condition() {
 		return this._documentSnapshot.get(rhit.FB_KEY_CONDITION);
-   }
+	}
 
-   get Description(){
+	get Description() {
 		return this._documentSnapshot.get(rhit.FB_KEY_DESCRIPTION);
-   }
+	}
 }
 
 
@@ -303,7 +503,7 @@ rhit.UsersManager = class {
 
 		this._ref.onSnapshot((querySnapshot) => {
 			this._users = querySnapshot.docs;
-			console.log(this._users);
+			// console.log(this._users);
 			changeListener();
 		});
 	}
@@ -322,20 +522,34 @@ rhit.UsersManager = class {
 			});
 	}
 
+	update(caption) {
+		this._ref.update({
+			[""]: ""
+
+		}).then(() => {
+			console.log("Successful!");
+		})
+			.catch(function (error) {
+				console.error("Error editing document: ", error);
+			});
+	}
+
 	getUser(uid, changeListener) {
 		this._ref.where("uid", "==", uid).onSnapshot((snapshot) => {
 			const doc = snapshot.docs;
 			// console.log("IN GET USER",doc[0].get("uid"),!doc[0]);
 			if (!doc || !doc[0]) {
-				console.log("TODO: add");
-				const currentUser = new rhit.User(uid, "EMAIL", "NAME");
+				// console.log("TODO: add");
+				const email = rhit.authManager.email ? rhit.authManager.email : null;
+				const name = rhit.authManager.name ? rhit.authManager.name : null;
+				const currentUser = new rhit.User(uid, email, name);
 				this.add(currentUser);
 			} else {
 				const user = new rhit.User(
 					doc[0].get("uid"),
 					doc[0].get("email"),
 					doc[0].get("name")
-					);
+				);
 				rhit.authManager.userInfo = user;
 				changeListener();
 			}
@@ -353,20 +567,55 @@ rhit.AuthManager = class {
 	}
 
 	get isSignedIn() { return !!this._user; }
+	get email() { return this._user.email; }
+	get name() { return this._user.displayName; }
+	get isSignedIn() { return !!this._user; }
+	get uid() { return this._user.uid; }
+	get photoURL() { return this._user.photoURL; }
+	get phoneNum() { return this._user.phoneNum; }
+	
+	setProfile(name, url,success,fail) {
+		this._user.updateProfile({
+			displayName: name,
+			photoURL: url
+		}).then(function () {
+			success();
+			alert("Updated Successfully");
+		}).catch( function (error) {
+			console.error("Fail to update",error);
+			alert(`Fail to update`);
+			fail();
+		});
+	}
+
+	setEmail(value, fail) {
+		this._user.updateEmail(value).then(function () {
+			alert("Updated Successfully");
+		}).catch( function (error) {
+			console.error("Fail to update",error);
+			alert("Fail to update.");
+			fail();
+		});
+	}
+
+	
+
 
 	beginListening(changeListener) {
-		firebase.auth().onAuthStateChanged( (user) => {
+		firebase.auth().onAuthStateChanged((user) => {
 			this._user = user;
-			
+
 			changeListener();
 
 			this.updateUsers();
 		});
 	}
 
-	updateUsers(){
+
+
+	updateUsers() {
 		if (this._user) {
-			rhit.usersManager.getUser(this._user.uid,this.displayUserInfo.bind(this));
+			rhit.usersManager.getUser(this._user.uid, this.displayUserInfo.bind(this));
 			// console.log("IN auth",this._user, !this._user);
 			// console.log(user.uid);
 			// if (!this._user) {
@@ -377,11 +626,13 @@ rhit.AuthManager = class {
 		}
 	}
 
-	displayUserInfo(){
+	displayUserInfo() {
 		console.log(this.userInfo);
 	}
-	
-	
+
+
+
+
 	signIn() {
 		Rosefire.signIn("74985a80-f480-41ce-84da-50c75363cbe0", (err, rfUser) => {
 			if (err) {
@@ -389,7 +640,7 @@ rhit.AuthManager = class {
 				return;
 			}
 			console.log("Rosefire success!", rfUser);
-			
+
 			// Next use the Rosefire token with Firebase auth.
 			firebase.auth().signInWithCustomToken(rfUser.token).catch((error) => {
 				if (error.code === 'auth/invalid-custom-token') {
@@ -399,17 +650,15 @@ rhit.AuthManager = class {
 				}
 			}); // Note: Success should be handled by an onAuthStateChanged listener.
 		});
-		
+
 	}
-	
+
 	signOut() {
 		firebase.auth().signOut().catch(function (error) {
 			console.log("error");
 		});
 	}
-	
-	get isSignedIn() { return !!this._user; }
-	get uid() { return this._user.uid; }
+
 }
 //Managers End
 
@@ -428,8 +677,8 @@ rhit.User = class {
 }
 
 
-rhit.Post = class{
-	constructor(id, name, url){
+rhit.Post = class {
+	constructor(id, name, url) {
 		this.id = id;
 		this.name = name;
 		this.url = url;
@@ -438,14 +687,22 @@ rhit.Post = class{
 //Objects end
 
 //Functions begins
+
+// From https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+function htmlToElement(html) {
+	var template = document.createElement('template');
+	html = html.trim();
+	template.innerHTML = html;
+	return template.content.firstChild;
+}
+
 rhit.initializePage = () => {
 	const urlParams = new URLSearchParams(window.location.search);
 	const id = urlParams.get("id");
-	// const uid = urlParams.get("uid");
-	
-	console.log("Current user: ",rhit.authManager._user);
+	const uid = urlParams.get("uid");
+
+	console.log("Current user: ", rhit.authManager._user);
 	if (document.querySelector("#loginPage")) {
-		console.log("object");
 		rhit.startFirebaseUI();
 		new rhit.LoginPageController();
 	}
@@ -454,17 +711,27 @@ rhit.initializePage = () => {
 		new rhit.HomePageController();
 	}
 
-	if(document.querySelector("#ListPage")){
+	if (document.querySelector("#ListPage")) {
 		console.log("You are on the List page");
-		// const uid = urlParams.get("uid");
-		rhit.fbItemsManager = new rhit.FbItemsManager();
+		rhit.fbItemsManager = new rhit.FbItemsManager(uid);
 		new rhit.ListPageController();
 	}
 
-	if(document.querySelector("#detailPage")){
+	if (document.querySelector("#detailPage")) {
 		rhit.fbDetailItemManager = new rhit.FbDetailItemManager(id);
 		new rhit.DetailPageController();
-		
+
+	}
+
+	if (document.querySelector("#accountPage")) {
+		new rhit.accountPageController();
+
+	}
+
+	if(document.querySelector("#savedListPage")){
+		console.log("You are on the saveList page");
+		rhit.fbSavedListManager = new rhit.FbSavedListManager();
+		new rhit.SavedListController();
 	}
 
 	// if(document.querySelector("#detailPage")){
@@ -485,9 +752,10 @@ rhit.checkForRedirects = () => {
 		console.log(rhit.authManager._user);
 	}
 
-	// if(!document.querySelector("#loginPage") && !rhit.authManager.isSignedIn){
-	// 	window.location.href = "/";
-	// }
+	if(!document.querySelector("#loginPage") && !document.querySelector("#mainPage") && !document.querySelector("#ListPage") 
+	&& !document.querySelector("#detailPage") && !rhit.authManager.isSignedIn){
+		window.location.href = "/";
+	}
 }
 //Functions end
 

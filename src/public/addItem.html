@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
   <link rel="stylesheet" href="styles/ListPage.css">
-  <title>Listing Page</title>
+  <title>Add Item</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     </button>
       
 
-    <a class="navbar-brand" href="#" style="position: absolute; left: 13%;">Listing page</a>
+    <a class="navbar-brand" href="#" style="position: absolute; left: 13%;">Add Item</a>
     <button class="btn bmd-btn-icon dropdown-toggle mx-1" id = "setting" type="button">
       <i class="material-icons">settings</i>
     </button>
@@ -31,17 +31,28 @@
   </nav>
 
 
-  <div id="ListPage" class="container page-container text-center">
-
- 
-    <div id="Container"></div>
-
-
+  <div class = "information" >
+    <div class="form-group">
+      <label for="input-imageUrl">imageUrl</label>
+      <input type="text" class="form-control" id="input-imageUrl" >
+    </div>
+    <div class="form-group">
+      <label for="input-item">Item Name</label>
+      <input type="text" class="form-control" id="input-item" >
+    </div>
+    <div class="form-group">
+      <label for="input-cat">Item Category</label>
+      <input type="text" class="form-control" id="input-cat" >
+    </div>
+    <div class="form-group">
+      <label for="input-des">Description</label>
+      <input type="text" class="form-control" id="input-des" >
+    </div>
+    <span class="bmd-help">Where did you find this image?</span>
   </div>
 
-  <button id = "fab" type = "button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addItem">
-    <i class = "material-icons">add</i>
-  </button>
+  <button id= "submitButton" type="button" class = "btn" >Submit</button>
+
   
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
