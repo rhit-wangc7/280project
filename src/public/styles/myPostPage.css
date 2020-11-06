@@ -20,44 +20,19 @@ body {
 
 }
 
-.post{
+.myPost{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background-color: rgb(223, 239, 253);
     border-radius: 5px;
 }
 
-#fab{
-    position: fixed;
-    /* the different of absolute is using fixed can fix the button so it 
-    will not move when you scroll down */
-    right: 30px;
-    bottom: 25px;
-    background: #349daf;
-    color: white;
-    z-index: 999;
+#myPostContainer img{
+    height: 190px;
+    width: 140px;
 }
 
-#Container img{
-    height: 260px;
-    width: 200px;
-}
-
-.information{
-   margin: 80px;
-}
-
-#submitButton{
-    display: block;
-    margin: 60px auto;
-    color: white;
-    background: #349daf;
-    font-size: 1.1em;
-    padding: 10px 30px;
-    border-radius: 5px;
-}
 @media (min-width: 0px) { 
 
 }
