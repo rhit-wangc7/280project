@@ -26,7 +26,7 @@
             <i class="material-icons">settings</i>
         </button>
 
-        <button class="btn bmd-btn-icon dropdown-toggle" type="button">
+        <button id = "submitInfoChange" class="btn bmd-btn-icon dropdown-toggle" type="button">
             <i class="material-icons">check</i>
         </button>
 
@@ -36,7 +36,7 @@
         <div id="infoContainer" class="justify-content-center" style="height: 100px;">
 
             <div id="accountPhoto" class="text-center">
-                <img class="round_icon" src="/Dr.Yoder.jpg" alt="">
+                <img class="userImage round_icon" src="/loading.jpg" alt="">
             </div>
             <!-- <div class="h1" style="">&nbsp;&nbsp;&nbsp;Hello Dr. Yoder!</div> -->
         </div>
@@ -45,18 +45,19 @@
 
             <div class="my-3 py-3 justify-content-start">
                 Name:
-                <input type="text" name="search" placeholder=" Name">
+                <input id="nameInput" type="text" name="search" placeholder=" Name">
             </div>
 
             <div class="my-3 py-3 justify-content-start">
                 Email:
-                <input type="text" name="search" placeholder=" Email">
+                <input id="emailInput" type="text" name="search" placeholder=" Email">
             </div>
 
             <div class="my-3 py-3 justify-content-start">
-                PhotoUrl:
-                <input type="text" name="search" placeholder=" ">
+                PhotoUrl: Must be a square photo
+                <input id="urlInput" type="text" name="search" placeholder="Your Photo URL">
             </div>
+
         </div>
 
     </div>
