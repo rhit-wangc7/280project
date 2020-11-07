@@ -76,7 +76,13 @@ rhit.HomePageController = class {
 }
 
 rhit.ListPageController = class {
-	constructor() {
+	constructor(uid) {
+		if(uid == rhit.authManager.uid){
+			document.querySelector("#MyPostPageTitle").style.display="flex";
+		}else{
+			document.querySelector("#ListPageTitle").style.display="flex";
+			
+		}
 		$("#account").click(() => {
 			if (!rhit.authManager.isSignedIn) {
 				window.location.href = `loginPage.html`
@@ -99,6 +105,7 @@ rhit.ListPageController = class {
 	updateList() {
 		console.log("need to update list.");
 		console.log(`Num of items = ${rhit.fbItemsManager.length}`);
+
 		// console.log("Example quote = ", rhit.fbItemsManager.getMovieQuoteAtIndex(0) );
 
 		// new List 
@@ -185,8 +192,10 @@ rhit.DetailPageController = class {
 		document.getElementById("Condition").innerText = `Condition: ${rhit.fbDetailItemManager.Condition}`;
 		document.getElementById("Description").innerText = `Description: ${rhit.fbDetailItemManager.Description}`;
 		document.getElementById("myImg").src = rhit.fbDetailItemManager.url;
-
-
+		document.getElementById("OwnerName").innerText = `Owner Name: ${rhit.fbDetailItemManager.Ownername}`;
+		if(rhit.fbDetailItemManager.Owner == rhit.authManager.uid){
+			document.querySelector("#edit").style.display="flex";
+		}
 	}
 
 }
@@ -417,6 +426,7 @@ rhit.FbItemsManager = class {
 	}
 
 	add(url, name, category, description, condition) {
+		console.log("Here");
 		return this._ref.add({
 			[rhit.FB_KEY_IMAGE_URL]: url,
 			[rhit.FB_KEY_NAME]: name,
@@ -424,8 +434,8 @@ rhit.FbItemsManager = class {
 			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
 			[rhit.FB_KEY_DESCRIPTION]: description,
 			[rhit.FB_KEY_CATEGORY]: category,
-
-			"Owner": rhit.authManager.uid
+			"Owner": rhit.authManager.uid,
+			"Ownername": rhit.authManager.name
 		});
 	}
 
@@ -578,6 +588,10 @@ rhit.FbDetailItemManager = class {
 
 	get Description() {
 		return this._documentSnapshot.get(rhit.FB_KEY_DESCRIPTION);
+	}
+
+	get Ownername(){
+		return this._documentSnapshot.get("Ownername");
 	}
 }
 
@@ -819,7 +833,7 @@ rhit.initializePage = () => {
 	if (document.querySelector("#ListPage")) {
 		console.log("You are on the List page");
 		rhit.fbItemsManager = new rhit.FbItemsManager(uid);
-		new rhit.ListPageController();
+		new rhit.ListPageController(uid);
 	}
 
 	if (document.querySelector("#detailPage")) {
@@ -843,7 +857,9 @@ rhit.initializePage = () => {
 		rhit.addItemController = new rhit.AddItemController(id);
 		rhit.addItemController.updateView();
 		rhit.fbItemsManager = new rhit.FbItemsManager(uid);
-		rhit.fbDetailItemManager = new rhit.FbDetailItemManager(id);
+		if(id){
+			rhit.fbDetailItemManager = new rhit.FbDetailItemManager(id);
+		}
 	}
 
 	// if(document.querySelector("#detailPage")){
