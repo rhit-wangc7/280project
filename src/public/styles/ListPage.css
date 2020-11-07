@@ -25,9 +25,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-<<<<<<< HEAD
-    background-color: rgb(223, 239, 253);
-=======
     background-color: rgb(236, 236, 236);
     border-radius: 2em;
 }
@@ -60,39 +57,9 @@ body {
     background: #349daf;
     font-size: 1.1em;
     padding: 10px 30px;
->>>>>>> b37a027299834c7eda250a28280526a5ab6c3c72
     border-radius: 5px;
 }
 
-#fab{
-    position: fixed;
-    /* the different of absolute is using fixed can fix the button so it 
-    will not move when you scroll down */
-    right: 30px;
-    bottom: 25px;
-    background: #349daf;
-    color: white;
-    z-index: 999;
-}
-
-#Container img{
-    height: 260px;
-    width: 200px;
-}
-
-.information{
-   margin: 80px;
-}
-
-#submitButton{
-    display: block;
-    margin: 60px auto;
-    color: white;
-    background: #349daf;
-    font-size: 1.1em;
-    padding: 10px 30px;
-    border-radius: 5px;
-}
 @media (min-width: 0px) { 
 
 }
