@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-  <link rel="stylesheet" href="styles/ListPage.css">
-  <title>Listing Page</title>
+  <link rel="stylesheet" href="styles/myPostPage.css">
+  <title>My Post Page</title>
 </head>
 
 <body>
@@ -20,8 +20,10 @@
     </button>
       
 
-    <a id="ListPageTitle" class="navbar-brand"  style="position: absolute; left: 13%;"></a>
-
+    <a class="navbar-brand" href="#" style="position: absolute; left: 13%;">My Post Page</a>
+    <button class="btn bmd-btn-icon dropdown-toggle mx-1" id = "setting" type="button">
+      <i class="material-icons">settings</i>
+    </button>
 
     <button class="btn bmd-btn-icon dropdown-toggle" id = "account" type="button">
       <i class="material-icons">account_circle</i>
@@ -29,17 +31,18 @@
   </nav>
 
 
-  <div id="ListPage" class="container page-container text-center">
+  <div id="myPostPage" class="container page-container text-center">
 
-    
-    <div id="Container"></div>
+ 
+    <div id="myPostContainer">
+      <div id="Container"></div>
+       
+    </div>
 
 
   </div>
 
-  <button id = "fab" type = "button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addItem">
-    <i class = "material-icons">add</i>
-  </button>
+
   
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>

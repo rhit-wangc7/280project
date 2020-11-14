@@ -46,19 +46,17 @@
         <div class = "information px-0 my-4" >
           <p id ="Owner">Owner ID: </p>
           <p id ="OwnerName">Owner Name: </p>
-          <p id = "itemId" >Item ID </p>
           <p id = "Name">Name: </p>
           <p id ="Condition" >Condition: Like new</p>
-          <p id ="Email">Email: </p>
           <p id ="Description">Description: This is my favorite book!</p>
         </div>
     </div>
   
       <div>
-          <button id="contactBut"class="btn mx-3" type="button" style="border-radius: 2em; background-color:#349DAF; color: white;">Contact Owner Now ! </button>
+        <button id="contactBut"class="btn mx-3" type="button" style="border-radius: 2em; background-color:#349DAF; color: white; " data-toggle="modal" data-target = "#contactOwner">Contact Owner Now ! </button>
   
            <button id ="favoriteBut"class="btn bmd-btndropdown-toggle mx-2 px-2 py-1" style=" color: red;"  type="button">
-              <i class="material-icons">favorite</i>
+              <i id = "likeIcon" class="material-icons">favorite_border</i>
           </button>
       </div>                         
     </div>
@@ -87,6 +85,26 @@
       </div>
     </div>
   
+
+    <div class="modal fade" id="contactOwner" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Warning</h5>
+          </div>
+          <div class="modal-body">
+  
+              Are you sure you want to send message to the owner?
+              
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+            <button id="submitDeleteItem" type="button" class="btn btn-primary" data-dismiss="modal">YES</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   
   <script src="scripts/jquery.min.js"></script>

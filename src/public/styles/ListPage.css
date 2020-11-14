@@ -21,12 +21,13 @@ body {
 }
 
 .post{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: rgb(236, 236, 236);
     border-radius: 2em;
+    width: 100%;
 }
 
 #fab{
@@ -46,6 +47,11 @@ body {
     border-radius: 2em;
 }
 
+#Container{
+    column-count: 1;
+    column-gap: 5px;
+}
+
 .information{
     margin: 80px;
  }
@@ -62,11 +68,23 @@ body {
 
 @media (min-width: 0px) { 
 
+    #Container{
+        column-count: 1;
+        column-gap: 5px;
+    }
 }
 
 @media (min-width: 768px) { 
-
-
+    #Container{
+        column-count: 1;
+        column-gap: 35px;
+      
+    }
+    #Container img{
+        width: 50%;
+        border-radius: 2em;
+        
+    }
 
     #setting{
         position: absolute;
@@ -78,30 +96,47 @@ body {
 
 
 @media (min-width: 992px) { 
-
-
-    #setting{
-        position: absolute;
-        right: 100px;    
+    #Container{
+        column-count: 2;
+        column-gap: 45px;
     }
+    .Post{
+        width:15vw;
+    }
+    #Container img{
+        width: 50%;
+        border-radius: 2em;
+        
+    }
+
 }
 
 
 @media (min-width: 1200px) { 
-
-
+    #Container {
+        column-count: 2;
+        column-gap: 25px;
+        border-radius: 2em;
+    }
+    .Post{
+        width:25vw;
+    }
+           
+    #Container img{
+        width: 55%;
+        border-radius: 2em;
+    }
     #setting{
         position: absolute;
         right: 120px;    
     }
-
- 
  }
 
- #ListPageTitle{
+
+ #account img{
+    width: 100%;
+ }
+
+#otherCat{
     display: none;
- }
-
- #MyPostPageTitle{
-    display: none;
- }
+}

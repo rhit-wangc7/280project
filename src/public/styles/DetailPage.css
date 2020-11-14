@@ -20,6 +20,9 @@ body {
 
 }
 
+#account img{
+    width: 100%;
+ }
 
 
 .information{
@@ -68,3 +71,7 @@ body {
  #edit{
      display: none;
  }
+
+#myImg{
+    height:40vh;
+}

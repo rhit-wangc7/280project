@@ -20,6 +20,10 @@ body {
 
 }
 
+#account img{
+   width: 100%;
+}
+
 .myPost{
     display: flex;
     flex-direction: row;
